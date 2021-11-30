@@ -13,6 +13,7 @@ a react app that allows you to search github users, issues, and repositories.
 - [x] store data in redux store
 - [x] use react router to navigate to the details page.
 - [ ] use Redux persist to store the data in local storage.
+- [ ] refactor ui, redux store, css and javascript files
 
 
 ## Setup
