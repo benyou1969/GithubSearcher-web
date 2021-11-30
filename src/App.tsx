@@ -2,41 +2,21 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./App.css";
-import { clear, selectFetch, setDataReducer } from "./store/fetchSlice";
-
-export const Headline = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <img alt="logo" src="/logo.png" height={40} width={40} />
-      <div style={{ marginLeft: 15 }}>
-        <span style={{ fontWeight: "bold", fontSize: 22 }}>
-          Github Searcher
-        </span>
-        <br />
-        <span style={{ fontWeight: 400, color: "gray" }}>
-          Search users or repositories below
-        </span>
-      </div>
-    </div>
-  );
-};
+import { clear, search, selectFetch } from "./store/fetchSlice";
+import {SearchSearchTypeEnum} from "generated/api"
+import { Headline } from "components";
 
 function App() {
-  const [type, setType] = useState("users");
+  const [type, setType] = useState<SearchSearchTypeEnum>(SearchSearchTypeEnum.Users);
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
-  const { data } = useSelector(selectFetch);
+  const { data, error, loading } = useSelector(selectFetch);
 
   const handleSearch = async (e: any) => {
     if (e.key === "Enter") {
       if (value.length >= 3) {
-        await dispatch(setDataReducer(type, value));
+        const params = { searchType: type, searchTerm: value };
+        await dispatch(search(params));
       }
       if (value.length === 0) {
         await dispatch(clear());
@@ -59,7 +39,8 @@ function App() {
       console.log("type", type);
       console.log("value", value);
       if (value.length >= 3) {
-        await dispatch(setDataReducer(type, value));
+        const params = { searchType: type, searchTerm: value };
+        await dispatch(search(params));
       }
     }
     fetch();
@@ -120,7 +101,9 @@ function App() {
       <br />
       <br />
       <div className="wrapper">
-        {data
+        {loading === "loading" && <div>Loading...</div>}
+        {error && <div>Error: {error}</div>}
+        {loading === "loaded" && data
           ? data?.map((item, index) => (
               <div className="column">
                 <div className="card" key={index}>

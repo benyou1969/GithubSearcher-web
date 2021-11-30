@@ -5,8 +5,8 @@ a react app that allows you to search github users, issues, and repositories.
 - [x] use TypeScript
 - [x] use Redux
 - [x] Make the API calls only if the user has typed 3 or more characters.
-- [] Display a loading indicator while the API call is in progress.
-- [] Display a message if the API call fails.
+- [x] Display a loading indicator while the API call is in progress.
+- [x] Display a message if the API call fails.
 - [x] Display the results of the API call.
 - [x] Display the results in a grid 3 for large screen and two for mobile screen (width less than 768px).
 - [x] Display the results in a two grid if the screen is less than 768px.
